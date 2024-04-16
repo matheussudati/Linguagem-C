@@ -16,6 +16,7 @@ void incluir(Funcionario func[], int *i)
     fflush(stdin);
     printf("nome: ");
     fgets(func[*i].nome,30,stdin);
+    func[*i].nome[strcspn(func[*i].nome,"\n")] = '\0';
     printf("salario: ");
     scanf("%f", &func[*i].salario);
     printf("filhos: ");
@@ -42,7 +43,7 @@ void listar(Funcionario func[], int *i)
 {
     for(int j = 0; j < *i; j++)
     {
-        printf("\n\nID: %d \nNome: %sSalario: %.2f \nFilhos: %d", (func[j].id + 1), func[j].nome, func[j].salario, func[j].quantidade_filhos);
+        printf("\n\nID: %d \nNome: %s\nSalario: %.2f \nFilhos: %d", (func[j].id + 1), func[j].nome, func[j].salario, func[j].quantidade_filhos);
     }
 }
 
@@ -75,7 +76,7 @@ void filhos(Funcionario func[], int *i)
     {
         if(func[j].quantidade_filhos > 2)
         {
-            printf("\n\nID: %d \nNome: %sSalario: %.2f \nFilhos: %d", (func[j].id + 1), func[j].nome, func[j].salario, func[j].quantidade_filhos);
+            printf("\n\nID: %d \nNome: %s\nSalario: %.2f \nFilhos: %d", (func[j].id + 1), func[j].nome, func[j].salario, func[j].quantidade_filhos);
         }
     }
 }
