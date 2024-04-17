@@ -2,6 +2,69 @@
 #include <conio.h>
 #define MAX 100
 
+void testeMedalha(int medalha[], int arrayEmpate[], int *empate, int *marcador, int *maior, int numP);
+
+void testeEmpate(int medalha[], int numP, int *p, char classificacaoPaises[numP][3], char paises[numP][3], int medalhaPrata[], int medalhaBronze[], int *maior, int *marcador, int *i, int *z, int *x);
+
+void trocaMedalha(int *empate, int *marcador, int *maior, int numP, int arrayEmpateOuro[numP], int medalha[numP], int arrayEmpate[numP], int *x);
+
+int main(){
+
+    int numP = MAX, medalhaOuro[numP], medalhaPrata[numP], medalhaBronze[numP], maior = 0, empate = 0, arrayEmpateOuro[numP], x = 0, z = 0, arrayEmpatePrata[numP], arrayEmpateBronze[numP], marcador = 0, p = 0;
+    char paises[numP][3], classificacaoPaises[numP][3];
+
+    for(int i = 0; i < numP; i++){
+        printf("Digite as 3 iniciais do %d pais: ", i+1);
+        fflush(stdin);
+        gets(paises[i]);
+        printf("Quantas medalhas de Ouro? ");
+        scanf("%d", &medalhaOuro[i]);
+        printf("Quantas medalhas de Prata? ");
+        scanf("%d", &medalhaPrata[i]);
+        printf("Quantas medalhas de Bronze? ");
+        scanf("%d", &medalhaBronze[i]);
+        
+    }
+
+    int i = 0; 
+    maior = 0;
+
+    do{
+        testeMedalha(medalhaOuro, arrayEmpateOuro, &empate, &marcador, &maior, numP);
+
+        if(marcador == 0){
+            testeEmpate(medalhaOuro, numP, &p, classificacaoPaises, paises, medalhaPrata, medalhaBronze, &maior, &marcador, &i, &z, &x);
+            continue;
+        }
+        maior = 0;
+
+    	trocaMedalha(&empate, &marcador, &maior, numP, arrayEmpateOuro, medalhaPrata, arrayEmpatePrata, &x);
+        if(marcador == 0){
+            testeEmpate(medalhaPrata, numP, &p, classificacaoPaises, paises, medalhaOuro, medalhaBronze, &maior, &marcador, &i, &z, &x);
+            maior = 0;
+            continue;
+        }
+
+        trocaMedalha(&empate, &marcador, &maior, numP, arrayEmpatePrata, medalhaBronze, arrayEmpateBronze, &x);
+        if(marcador == 0){
+            testeEmpate(medalhaBronze, numP, &p, classificacaoPaises, paises, medalhaPrata, medalhaOuro, &maior, &marcador, &i, &z, &x);
+            maior = 0;
+            continue;
+        }
+
+        i++;
+    } while(i < numP);
+
+    for(int i = 0; i < numP; i++){
+        printf("\n%d Lugar: ", i+1);
+        for(int j = 0; j < 3; j++){
+            printf("%c", classificacaoPaises[i][j]);
+        }
+    }
+
+    return 0;
+}
+
 void testeMedalha(int medalha[], int arrayEmpate[], int *empate, int *marcador, int *maior, int numP){
     for(int j = 0; j < numP; j++){      
         if(*maior == medalha[j] && j > 0){
@@ -65,61 +128,4 @@ void trocaMedalha(int *empate, int *marcador, int *maior, int numP, int arrayEmp
             } 
         }
     }
-}
-
-int main(){
-
-    int numP = MAX, medalhaOuro[numP], medalhaPrata[numP], medalhaBronze[numP], maior = 0, empate = 0, arrayEmpateOuro[numP], x = 0, z = 0, arrayEmpatePrata[numP], arrayEmpateBronze[numP], marcador = 0, p = 0;
-    char paises[numP][3], classificacaoPaises[numP][3];
-
-    for(int i = 0; i < numP; i++){
-        printf("Digite as 3 iniciais do %d pais: ", i+1);
-        fflush(stdin);
-        gets(paises[i]);
-        printf("Quantas medalhas de Ouro? ");
-        scanf("%d", &medalhaOuro[i]);
-        printf("Quantas medalhas de Prata? ");
-        scanf("%d", &medalhaPrata[i]);
-        printf("Quantas medalhas de Bronze? ");
-        scanf("%d", &medalhaBronze[i]);
-        
-    }
-
-    int i = 0; 
-    maior = 0;
-
-    do{
-        testeMedalha(medalhaOuro, arrayEmpateOuro, &empate, &marcador, &maior, numP);
-
-        if(marcador == 0){
-            testeEmpate(medalhaOuro, numP, &p, classificacaoPaises, paises, medalhaPrata, medalhaBronze, &maior, &marcador, &i, &z, &x);
-            continue;
-        }
-        maior = 0;
-
-    	trocaMedalha(&empate, &marcador, &maior, numP, arrayEmpateOuro, medalhaPrata, arrayEmpatePrata, &x);
-        if(marcador == 0){
-            testeEmpate(medalhaPrata, numP, &p, classificacaoPaises, paises, medalhaOuro, medalhaBronze, &maior, &marcador, &i, &z, &x);
-            maior = 0;
-            continue;
-        }
-
-        trocaMedalha(&empate, &marcador, &maior, numP, arrayEmpatePrata, medalhaBronze, arrayEmpateBronze, &x);
-        if(marcador == 0){
-            testeEmpate(medalhaBronze, numP, &p, classificacaoPaises, paises, medalhaPrata, medalhaOuro, &maior, &marcador, &i, &z, &x);
-            maior = 0;
-            continue;
-        }
-
-        i++;
-    } while(i < numP);
-
-    for(int i = 0; i < numP; i++){
-        printf("\n%d Lugar: ", i+1);
-        for(int j = 0; j < 3; j++){
-            printf("%c", classificacaoPaises[i][j]);
-        }
-    }
-
-    return 0;
 }
